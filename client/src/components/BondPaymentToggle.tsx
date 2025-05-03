@@ -19,11 +19,11 @@ export default function BondPaymentToggle({
   });
   
   return (
-    <Card className="bg-white rounded-xl shadow-md p-4 mb-6">
+    <Card className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-4 mb-6">
       <CardContent className="flex items-center justify-between p-0">
         <div>
-          <h3 className="font-medium">Bond Payment</h3>
-          <p className="text-sm text-gray-500">
+          <h3 className="font-medium dark:text-white">Bond Payment</h3>
+          <p className="text-sm text-gray-500 dark:text-white">
             Apply 15% of salary ({formattedAmount})
           </p>
         </div>
