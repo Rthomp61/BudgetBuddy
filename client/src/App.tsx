@@ -14,7 +14,7 @@ import Footer from "@/components/Footer";
 
 function Router() {
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen bg-white text-black dark:bg-gray-900 dark:text-gray-100">
       <Header />
       <main className="flex-1 overflow-y-auto">
         <Switch>
