@@ -121,10 +121,10 @@ export default function VoiceCommandModal({
       <DialogContent className="sm:max-w-md rounded-xl">
         <div className="p-6 flex flex-col items-center justify-center text-center">
           <div 
-            className={`w-24 h-24 rounded-full bg-primary-100 flex items-center justify-center mb-6 ${isListening ? "recording-pulse" : ""}`}
+            className={`w-24 h-24 rounded-full ${isListening ? "bg-neonGreen bg-opacity-20" : "bg-gray-100"} flex items-center justify-center mb-6 ${isListening ? "recording-pulse" : ""}`}
           >
             {isListening ? (
-              <Mic className="h-10 w-10 text-primary-500" />
+              <Mic className="h-10 w-10 text-neonGreen" />
             ) : (
               <MicOff className="h-10 w-10 text-gray-500" />
             )}
@@ -154,7 +154,7 @@ export default function VoiceCommandModal({
                   <p className="font-medium">Parsed:</p>
                   <ul className="text-left text-sm">
                     <li>Category: <span className="font-semibold">{parsedTransaction.category}</span></li>
-                    <li>Amount: <span className="font-semibold">${Math.abs(parsedTransaction.amount).toFixed(2)}</span></li>
+                    <li>Amount: <span className="font-semibold">${Math.abs(Number(parsedTransaction.amount)).toFixed(2)}</span></li>
                     <li>Date: <span className="font-semibold">{new Date(parsedTransaction.date).toLocaleDateString()}</span></li>
                   </ul>
                 </div>
@@ -172,7 +172,11 @@ export default function VoiceCommandModal({
                 <Button variant="outline" onClick={resetVoiceInput}>
                   Try Again
                 </Button>
-                <Button onClick={handleSubmit} disabled={isSubmitting}>
+                <Button 
+                  onClick={handleSubmit} 
+                  disabled={isSubmitting}
+                  className="bg-neonGreen text-black hover:bg-neonGreen/90 disabled:bg-neonGreen/50"
+                >
                   {isSubmitting ? "Saving..." : "Confirm"}
                 </Button>
               </>

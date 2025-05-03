@@ -44,7 +44,8 @@ export default {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        moneyGreen: "#1E8449", // Adding money green color
+        moneyGreen: "#1E8449", // Money green color
+        neonGreen: "#39FF14", // Neon green color
         chart: {
           "1": "hsl(var(--chart-1))",
           "2": "hsl(var(--chart-2))",
