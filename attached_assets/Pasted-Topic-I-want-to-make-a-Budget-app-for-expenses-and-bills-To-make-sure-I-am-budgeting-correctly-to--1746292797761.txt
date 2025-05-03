@@ -1,0 +1,73 @@
+Topic: I want to make a Budget app for expenses and bills. To make sure I am budgeting correctly to make payments on time and never miss any. 
+
+
+Header: I want there to be the name of the app EMS Expense Management System.  Green border with EMS WITH GREEN & WHITE ACCENTS
+
+
+Homepage: Should be a clean modern homepage. It should have a home screen that shows the budget itself. Daily, weekly, monthly options.  The app should know that Salary or Gift or Reimbursement, Inheritance or bonus or repayment should be in green numbers in the budget.  Anything that adds to the budget is a plus and green.  Any expenses below should be in red and take away from the budget Or anything else that you would need to pay for would be a negative and in Red.
+
+Monthly Schedule of Expenses: 
+Salary:
+clothes: Fuel:
+Car payment: Gifts: Shopping:  Reimbursement
+Inheritance
+Bonus
+Repayment Sports:
+Travel:
+Entertainment:  The app should know that Salary or Gift or Reimbursement, Inheritance or bonus should be in green numbers in the budget.
+
+The app should know that when you input any one of these that the Budget should start with that number and if multiple are added it should add them all together to get the starting budget.  Then once Expenses are added to the Daily, weekly or monthly budget it subtracts from it.
+
+
+
+Above the add expense & + voice command buttons should be a slider  Bond Payment Applies to daily budget should be A toggle switch To TURN OFF OR ON  The bond payment should be 15% of your salary always and never change.
+
+
+ At the middle to the bottom of the home page TWO buttons. 
+
+One: Large button for Manual Expense input (screen shot below )but change the text to add expense.      
+￼
+     
+
+Two: Large green button with + voice command with microphone to input Expenses by voice
+ Here is a photo below but Make it green
+
+
+
+
+
+
+
+￼
+
+
+
+
+
+
+
+
+UI: I want there to be voice command to log different expenses for a budget app. 
+
+When a user clicks the +voice command button and speaks " Mortgage payment $1500.00 on May 5th" the app should understand that and move the "mortgage payment directly into the monthly expenses for the correct Month and Day.   When a user clicks + add expense button they would then see an overlay screen which has input lines for:   1: Category:  This list should be in a dropdown in the overlay for Category: Salary:
+clothes: Fuel:
+Car payment: Gifts: Shopping:  Reimbursement
+Inheritance
+Bonus
+Repayment Sports:
+Travel:
+Entertainment:  2: Amount: $ USD   3: Date: Pick from a calendar that pops up to choose the day, week, month, year
+
+Footer:  Home button(icon house)  Future Expenses($$$ icon)  Settings:   (gear icon)  Profile:  Head with torso icon)
+
+
+UX:I want it to smooth and modern with radio buttons and overlays in between screens. 
+VoiceCommand.tsx contains the core voice functionality 
+
+speechRecognition.ts handles the voice processing Main navigation has a voice command access To replicate this voice command system in another app 
+
+client/src/lib speechRecognition.ts - The core speech recognition engine
+
+client/src/pages/VoiceCommand.tsx - The main UI component Any utility functions from client/src/lib/utils.ts that support voice formatting 
+
+You would also need to adapt the API logic in VoiceCommand.tsx to match your new app's data structure.
