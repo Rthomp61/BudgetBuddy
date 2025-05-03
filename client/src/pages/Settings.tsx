@@ -70,29 +70,25 @@ export default function Settings() {
                 
                 <div className="grid grid-cols-4 gap-2">
                   <Button 
-                    variant={fontSize === 'small' ? "default" : "outline"}
-                    className={fontSize === 'small' ? "bg-primary-500" : ""} 
+                    variant="outline"
                     onClick={() => updateFontSize('small')}
                   >
                     Small
                   </Button>
                   <Button 
-                    variant={fontSize === 'medium' ? "default" : "outline"}
-                    className={fontSize === 'medium' ? "bg-primary-500" : ""} 
-                    onClick={() => updateFontSize('medium')}
+                    variant="default"
+                    className="bg-primary-500"
                   >
                     Medium
                   </Button>
                   <Button 
-                    variant={fontSize === 'large' ? "default" : "outline"}
-                    className={fontSize === 'large' ? "bg-primary-500" : ""} 
+                    variant="outline"
                     onClick={() => updateFontSize('large')}
                   >
                     Large
                   </Button>
                   <Button 
-                    variant={fontSize === 'extra-large' ? "default" : "outline"}
-                    className={fontSize === 'extra-large' ? "bg-primary-500" : ""} 
+                    variant="outline"
                     onClick={() => updateFontSize('extra-large')}
                   >
                     Extra Large
@@ -195,7 +191,7 @@ export default function Settings() {
               
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
-                <Input id="password" type="password" value="********" />
+                <Input id="password" type="password" defaultValue="********" readOnly />
               </div>
               
               <Button className="w-full" variant="outline">
