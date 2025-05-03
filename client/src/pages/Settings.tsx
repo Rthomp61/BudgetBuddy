@@ -5,13 +5,24 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { SettingsIcon, BellIcon, DollarSignIcon, UserIcon } from "lucide-react";
-import { useState } from "react";
+import { SettingsIcon, BellIcon, DollarSignIcon, UserIcon, MoonIcon, SunIcon, TypeIcon } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useTheme } from "next-themes";
+import { useFontSize } from "@/hooks/useFontSize";
 
 export default function Settings() {
   const [notifications, setNotifications] = useState(true);
   const [currency, setCurrency] = useState("USD");
   const [bondPercentage, setBondPercentage] = useState("15");
+  const { theme, setTheme } = useTheme();
+  const { fontSize, updateFontSize } = useFontSize();
+  
+  // Used for hydration issues with server-side rendering
+  const [mounted, setMounted] = useState(false);
+  
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   
   return (
     <div className="container mx-auto py-6 px-4">
@@ -21,6 +32,77 @@ export default function Settings() {
       </div>
       
       <div className="space-y-6">
+        <Card>
+          <CardHeader>
+            <div className="flex items-center space-x-2">
+              <SettingsIcon className="h-5 w-5 text-primary-500" />
+              <CardTitle>Appearance</CardTitle>
+            </div>
+            <CardDescription>Customize how the application looks</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-5">
+              {/* Theme Mode Toggle */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  {theme === 'dark' ? (
+                    <MoonIcon className="h-5 w-5 text-blue-400" />
+                  ) : (
+                    <SunIcon className="h-5 w-5 text-yellow-500" />
+                  )}
+                  <Label htmlFor="theme-mode" className="font-medium">
+                    {theme === 'dark' ? 'Dark Mode' : 'Light Mode'}
+                  </Label>
+                </div>
+                <Switch
+                  id="theme-mode"
+                  checked={theme === 'dark'}
+                  onCheckedChange={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                />
+              </div>
+              
+              {/* Text Size Selection */}
+              <div className="space-y-3">
+                <div className="flex items-center space-x-2">
+                  <TypeIcon className="h-5 w-5 text-primary-500" />
+                  <Label className="font-medium">Text Size</Label>
+                </div>
+                
+                <div className="grid grid-cols-4 gap-2">
+                  <Button 
+                    variant={fontSize === 'small' ? "default" : "outline"}
+                    className={fontSize === 'small' ? "bg-primary-500" : ""} 
+                    onClick={() => updateFontSize('small')}
+                  >
+                    Small
+                  </Button>
+                  <Button 
+                    variant={fontSize === 'medium' ? "default" : "outline"}
+                    className={fontSize === 'medium' ? "bg-primary-500" : ""} 
+                    onClick={() => updateFontSize('medium')}
+                  >
+                    Medium
+                  </Button>
+                  <Button 
+                    variant={fontSize === 'large' ? "default" : "outline"}
+                    className={fontSize === 'large' ? "bg-primary-500" : ""} 
+                    onClick={() => updateFontSize('large')}
+                  >
+                    Large
+                  </Button>
+                  <Button 
+                    variant={fontSize === 'extra-large' ? "default" : "outline"}
+                    className={fontSize === 'extra-large' ? "bg-primary-500" : ""} 
+                    onClick={() => updateFontSize('extra-large')}
+                  >
+                    Extra Large
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        
         <Card>
           <CardHeader>
             <div className="flex items-center space-x-2">
