@@ -71,24 +71,28 @@ export default function Settings() {
                 <div className="grid grid-cols-4 gap-2">
                   <Button 
                     variant="outline"
+                    className="hover:bg-gray-100 hover:text-gray-900"
                     onClick={() => updateFontSize('small')}
                   >
                     Small
                   </Button>
                   <Button 
                     variant="outline"
+                    className="hover:bg-gray-100 hover:text-gray-900"
                     onClick={() => updateFontSize('medium')}
                   >
                     Medium
                   </Button>
                   <Button 
                     variant="outline"
+                    className="hover:bg-gray-100 hover:text-gray-900"
                     onClick={() => updateFontSize('large')}
                   >
                     Large
                   </Button>
                   <Button 
                     variant="outline"
+                    className="hover:bg-gray-100 hover:text-gray-900"
                     onClick={() => updateFontSize('extra-large')}
                   >
                     Extra Large
