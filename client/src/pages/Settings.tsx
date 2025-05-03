@@ -77,7 +77,7 @@ export default function Settings() {
                   </Button>
                   <Button 
                     variant="default"
-                    className="bg-primary-500"
+                    className="bg-green-500 hover:bg-green-600 text-white"
                   >
                     Medium
                   </Button>
@@ -186,7 +186,12 @@ export default function Settings() {
             <div className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">Email Address</Label>
-                <Input id="email" type="email" placeholder="your.email@example.com" />
+                <Input 
+                  id="email" 
+                  type="email" 
+                  defaultValue="" 
+                  placeholder="your.email@example.com" 
+                />
               </div>
               
               <div className="space-y-2">
