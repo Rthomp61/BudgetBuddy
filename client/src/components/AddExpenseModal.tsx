@@ -74,10 +74,17 @@ export default function AddExpenseModal({
       const isIncome = incomeCategories.includes(category);
       const parsedAmount = parseFloat(amount) * (isIncome ? 1 : -1);
       
+      // Convert date to ISO string but ensure it's valid
+      const dateObj = new Date(date);
+      // Check if the date is valid
+      if (isNaN(dateObj.getTime())) {
+        throw new Error("Invalid date format");
+      }
+      
       await onAddTransaction({
         category,
-        amount: parsedAmount,
-        date: new Date(date).toISOString()
+        amount: parsedAmount.toString(),
+        date: dateObj
       });
       
       toast({
@@ -91,9 +98,10 @@ export default function AddExpenseModal({
       setDate(new Date().toISOString().split('T')[0]);
       onClose();
     } catch (error) {
+      console.error("Transaction error:", error);
       toast({
         title: "Error",
-        description: "Failed to add transaction. Please try again.",
+        description: "Failed to add transaction. Please ensure all fields are correctly filled.",
         variant: "destructive"
       });
     } finally {
@@ -106,10 +114,6 @@ export default function AddExpenseModal({
       <DialogContent className="sm:max-w-md rounded-xl">
         <DialogHeader>
           <DialogTitle className="text-lg font-bold">Add Expense</DialogTitle>
-          <DialogClose className="absolute right-4 top-4">
-            <X className="h-4 w-4" />
-            <span className="sr-only">Close</span>
-          </DialogClose>
         </DialogHeader>
         
         <form onSubmit={handleSubmit}>
