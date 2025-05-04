@@ -12,6 +12,7 @@ import { useBudget } from "@/hooks/useBudget";
 import { TimeFrame } from "@shared/schema";
 
 export default function Home() {
+  // Always use monthly for the home page to show monthly budget
   const [timeFrame, setTimeFrame] = useState<TimeFrame>("monthly");
   const [isAddExpenseModalOpen, setIsAddExpenseModalOpen] = useState(false);
   const [isVoiceCommandModalOpen, setIsVoiceCommandModalOpen] = useState(false);
@@ -43,7 +44,7 @@ export default function Home() {
         bondAmount={budget?.bondPayment}
       />
       
-      <h3 className="font-bold text-lg mb-3">Recent Transactions</h3>
+      <h3 className="font-bold text-lg mb-3">Monthly Budget Expenses</h3>
       
       <TransactionsList 
         transactions={transactions} 

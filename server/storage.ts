@@ -55,68 +55,117 @@ export class MemStorage implements IStorage {
   }
   
   async getTransactions(timeFrame: TimeFrame): Promise<Transaction[]> {
-    const allTransactions = Array.from(this.transactions.values());
+    // Always use current date for proper filtering
     const now = new Date();
+    // Make sure we're using today's date
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     
-    // Filter transactions based on time frame
+    // Get all transactions
+    const allTransactions = Array.from(this.transactions.values());
+    
+    // Sort transactions by date (newest first)
+    const sortedTransactions = allTransactions.sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+      return dateB.getTime() - dateA.getTime();
+    });
+    
     switch (timeFrame) {
       case "daily":
-        // Get transactions for today
-        return allTransactions.filter(t => {
+        // Get only today's transactions
+        return sortedTransactions.filter(t => {
           const transactionDate = new Date(t.date);
+          const transactionDay = new Date(
+            transactionDate.getFullYear(),
+            transactionDate.getMonth(),
+            transactionDate.getDate()
+          );
+          
+          // Compare dates to match exact day
           return (
-            transactionDate.getDate() === now.getDate() &&
-            transactionDate.getMonth() === now.getMonth() &&
-            transactionDate.getFullYear() === now.getFullYear()
+            transactionDay.getDate() === today.getDate() &&
+            transactionDay.getMonth() === today.getMonth() &&
+            transactionDay.getFullYear() === today.getFullYear()
           );
         });
         
       case "weekly":
-        // Get transactions for current week
-        const oneWeekAgo = new Date(now);
-        oneWeekAgo.setDate(now.getDate() - 7);
-        return allTransactions.filter(t => {
+        // Get transactions for the current calendar week (Sunday to Saturday)
+        const startOfWeek = new Date(today);
+        startOfWeek.setDate(today.getDate() - today.getDay()); // Sunday
+        startOfWeek.setHours(0, 0, 0, 0);
+        
+        const endOfWeek = new Date(today);
+        endOfWeek.setDate(today.getDate() + (6 - today.getDay())); // Saturday
+        endOfWeek.setHours(23, 59, 59, 999);
+        
+        return sortedTransactions.filter(t => {
           const transactionDate = new Date(t.date);
-          return transactionDate >= oneWeekAgo && transactionDate <= now;
+          // Clear time portion for accurate date comparison
+          const transactionDay = new Date(
+            transactionDate.getFullYear(),
+            transactionDate.getMonth(),
+            transactionDate.getDate()
+          );
+          
+          return transactionDay >= startOfWeek && transactionDay <= endOfWeek;
         });
         
       case "monthly":
-        // Get transactions for current month
-        return allTransactions.filter(t => {
+        // Get only current month's transactions
+        return sortedTransactions.filter(t => {
           const transactionDate = new Date(t.date);
           return (
-            transactionDate.getMonth() === now.getMonth() &&
-            transactionDate.getFullYear() === now.getFullYear()
+            transactionDate.getMonth() === today.getMonth() &&
+            transactionDate.getFullYear() === today.getFullYear()
           );
         });
         
       case "future":
-        // Get future transactions
-        return allTransactions.filter(t => {
+        // Get future transactions (after today)
+        return sortedTransactions.filter(t => {
           const transactionDate = new Date(t.date);
-          return transactionDate > now;
+          // Clear time portion for accurate date comparison
+          const transactionDay = new Date(
+            transactionDate.getFullYear(),
+            transactionDate.getMonth(),
+            transactionDate.getDate()
+          );
+          
+          return transactionDay > today;
         });
         
       default:
-        return allTransactions;
+        return sortedTransactions;
     }
   }
   
   async createTransaction(transaction: CreateTransactionInput): Promise<Transaction> {
     const id = this.currentTransactionId++;
     
-    // Ensure proper data types
+    // Ensure proper data types for amount
     const amount = typeof transaction.amount === 'string' 
       ? parseFloat(transaction.amount) 
       : transaction.amount;
       
-    // Make sure we have a valid date object
+    // Make sure we have a valid date object that preserves the correct date
     let date: Date;
     if (transaction.date instanceof Date) {
+      // Use the provided date but ensure it's for today if no specific date was selected
       date = transaction.date;
     } else {
+      // Parse the date string
       date = new Date(transaction.date);
+      
+      // If date couldn't be parsed correctly or is invalid, use today's date
+      if (isNaN(date.getTime())) {
+        console.warn("Invalid date received for transaction, using current date");
+        date = new Date();
+      }
     }
+    
+    // Log the date to verify it's correct
+    console.log("Creating transaction with date:", date.toISOString());
     
     // Create the transaction with proper types
     const newTransaction: Transaction = { 

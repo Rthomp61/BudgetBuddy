@@ -38,7 +38,10 @@ export default function AddExpenseModal({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [category, setCategory] = useState("");
   const [amount, setAmount] = useState("");
-  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+  // Ensure today's date is used by default
+  const today = new Date();
+  const todayStr = today.toISOString().split('T')[0];
+  const [date, setDate] = useState(todayStr);
 
   const incomeCategories = [
     "Salary", "Gifts", "Reimbursement", "Inheritance", "Bonus", "Repayment"
@@ -119,7 +122,8 @@ export default function AddExpenseModal({
       // Reset form and close modal
       setCategory("");
       setAmount("");
-      setDate(new Date().toISOString().split('T')[0]);
+      // Reset to today's date properly
+      setDate(todayStr);
       onClose();
     } catch (error) {
       console.error("Transaction error:", error);
