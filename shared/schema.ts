@@ -24,24 +24,16 @@ export interface Budget {
 // Transaction types
 export type Transaction = typeof transactions.$inferSelect;
 
-// Create transaction schema with additional validation
-export const createTransactionSchema = createInsertSchema(transactions)
-  .pick({
-    category: true,
-    amount: true,
-    date: true,
-  })
-  .refine(
-    (data) => {
-      // Additional validation for date (must be a valid date)
-      const date = new Date(data.date);
-      return !isNaN(date.getTime());
-    },
-    {
-      message: "Invalid date format",
-      path: ["date"],
-    }
-  );
+// Create transaction schema with additional validation and transformations
+export const createTransactionSchema = z.object({
+  category: z.string(),
+  amount: z.union([z.number(), z.string()]).transform(val => 
+    typeof val === 'string' ? parseFloat(val) : val
+  ),
+  date: z.union([z.date(), z.string()]).transform(val => 
+    typeof val === 'string' ? new Date(val) : val
+  )
+});
 
 export type CreateTransactionInput = z.infer<typeof createTransactionSchema>;
 

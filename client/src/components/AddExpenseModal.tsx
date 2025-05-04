@@ -74,18 +74,42 @@ export default function AddExpenseModal({
       const isIncome = incomeCategories.includes(category);
       const parsedAmount = parseFloat(amount) * (isIncome ? 1 : -1);
       
-      // Convert date to ISO string but ensure it's valid
-      const dateObj = new Date(date);
-      // Check if the date is valid
-      if (isNaN(dateObj.getTime())) {
-        throw new Error("Invalid date format");
+      // Make sure all form fields are filled
+      if (!category || !amount || !date) {
+        toast({
+          title: "Missing fields",
+          description: "Please fill out all fields",
+          variant: "destructive"
+        });
+        return;
       }
       
-      await onAddTransaction({
-        category,
-        amount: parsedAmount.toString(),
-        date: dateObj
-      });
+      // Convert date to ISO string but ensure it's valid
+      const dateObj = new Date(date);
+      
+      // Check if the date is valid
+      if (isNaN(dateObj.getTime())) {
+        toast({
+          title: "Invalid date",
+          description: "Please select a valid date",
+          variant: "destructive"
+        });
+        return;
+      }
+      
+      try {
+        // Force type conversion for API compatibility
+        await onAddTransaction({
+          category,
+          // @ts-ignore - Schema handles this properly at runtime
+          amount: parsedAmount,
+          // @ts-ignore - Schema handles this properly at runtime
+          date: dateObj
+        });
+      } catch (err) {
+        console.error("API error:", err);
+        throw err;
+      }
       
       toast({
         title: "Success!",

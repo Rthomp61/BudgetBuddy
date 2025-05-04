@@ -104,11 +104,26 @@ export class MemStorage implements IStorage {
   
   async createTransaction(transaction: CreateTransactionInput): Promise<Transaction> {
     const id = this.currentTransactionId++;
+    
+    // Ensure proper data types
+    const amount = typeof transaction.amount === 'string' 
+      ? parseFloat(transaction.amount) 
+      : transaction.amount;
+      
+    // Make sure we have a valid date object
+    let date: Date;
+    if (transaction.date instanceof Date) {
+      date = transaction.date;
+    } else {
+      date = new Date(transaction.date);
+    }
+    
+    // Create the transaction with proper types
     const newTransaction: Transaction = { 
-      ...transaction, 
       id,
-      // Ensure amount is a number
-      amount: Number(transaction.amount)
+      category: transaction.category,
+      amount,
+      date
     };
     
     this.transactions.set(id, newTransaction);
