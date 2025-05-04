@@ -21,11 +21,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Add a new transaction
   app.post("/api/transactions", async (req, res) => {
     try {
+      console.log("Transaction request body:", req.body);
       const transactionData = createTransactionSchema.parse(req.body);
+      console.log("Parsed transaction data:", transactionData);
       const newTransaction = await storage.createTransaction(transactionData);
+      console.log("New transaction created:", newTransaction);
       res.status(201).json(newTransaction);
     } catch (error) {
       if (error instanceof ZodError) {
+        console.error("Zod validation error:", error.errors);
         res.status(400).json({ message: "Invalid transaction data", errors: error.errors });
       } else {
         console.error("Error creating transaction:", error);

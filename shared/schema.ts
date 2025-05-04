@@ -13,6 +13,14 @@ export const transactions = pgTable("transactions", {
   date: timestamp("date").notNull(),
 });
 
+// Runtime type that will actually be used
+export interface Transaction {
+  id: number;
+  category: string;
+  amount: number;
+  date: Date;
+}
+
 // Budget types
 export interface Budget {
   income: number;
@@ -21,8 +29,8 @@ export interface Budget {
   bondPayment: number;
 }
 
-// Transaction types
-export type Transaction = typeof transactions.$inferSelect;
+// This is replaced by our explicit Transaction interface above
+// export type Transaction = typeof transactions.$inferSelect;
 
 // Create transaction schema with additional validation and transformations
 export const createTransactionSchema = z.object({

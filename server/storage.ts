@@ -179,43 +179,43 @@ export class MemStorage implements IStorage {
     const thisMonth = now.getMonth();
     const thisYear = now.getFullYear();
     
-    // Sample transactions
-    const sampleTransactions: CreateTransactionInput[] = [
+    // Sample transactions with correct types
+    const sampleTransactions = [
       {
         category: "Salary",
         amount: 5800,
-        date: new Date(thisYear, thisMonth, 1).toISOString()
+        date: new Date(thisYear, thisMonth, 1)
       },
       {
         category: "Mortgage",
         amount: -1500,
-        date: new Date(thisYear, thisMonth, 5).toISOString()
+        date: new Date(thisYear, thisMonth, 5)
       },
       {
         category: "Car Payment",
         amount: -450.75,
-        date: new Date(thisYear, thisMonth, 10).toISOString()
+        date: new Date(thisYear, thisMonth, 10)
       },
       {
         category: "Shopping",
         amount: -120,
-        date: new Date(thisYear, thisMonth, 12).toISOString()
+        date: new Date(thisYear, thisMonth, 12)
       },
       {
         category: "Clothes",
         amount: -200,
-        date: new Date(thisYear, thisMonth, 15).toISOString()
+        date: new Date(thisYear, thisMonth, 15)
       },
       {
         category: "Reimbursement",
         amount: 143.50,
-        date: new Date(thisYear, thisMonth, 18).toISOString()
+        date: new Date(thisYear, thisMonth, 18)
       },
       // Future transaction
       {
         category: "Travel",
         amount: -800,
-        date: new Date(thisYear, thisMonth + 1, 5).toISOString()
+        date: new Date(thisYear, thisMonth + 1, 5)
       }
     ];
     
