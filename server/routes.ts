@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { createTransactionSchema } from "@shared/schema";
+import { createTransactionSchema, TimeFrame } from "@shared/schema";
 import { z } from "zod";
 import { ZodError } from "zod";
 
@@ -9,7 +9,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Get transactions with time frame filtering
   app.get("/api/transactions", async (req, res) => {
     try {
-      const timeFrame = (req.query.timeFrame as string) || "monthly";
+      const timeFrameParam = (req.query.timeFrame as string) || "monthly";
+      // Validate timeFrame is one of the allowed values
+      const timeFrame = ["daily", "weekly", "monthly", "future"].includes(timeFrameParam) 
+        ? timeFrameParam as TimeFrame 
+        : "monthly";
+      
       const transactions = await storage.getTransactions(timeFrame);
       res.json(transactions);
     } catch (error) {
